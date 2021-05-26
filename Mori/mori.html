@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>2DO</title>
+    <style>
+      .flex-grid {
+        display: flex;
+      }
+      .col {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button id="AddThing" onclick="addJSON()">ADD</button> NAME:<input
+        id="NameInput"
+      />
+      PRIORITY:<select name="Priority" id="PriorityInput">
+        <option value="High">High</option>
+        <option value="Low">Low</option>
+      </select>
+      <br />
+      <br />
+      <button id="RemoveThing" onclick="removeJSON()">REMOVE</button>
+      <input id="IDRemoval" type="number" />
+      <br />
+      <br />
+      <button id="ShowAll" onclick="showJSON()">SHOW ALL</button>
+      <br />
+      <br />
+      <button id="SearchThing" onclick="searchJSON()">SEARCH</button>
+      <input id="IDSearch" /> <br />
+      <br />
+    </div>
+    <br /><br />
+    <div id="Display">
+      <div class="flex-grid">
+        <div class="col">
+          TASK <br />
+          <div id="NameDisplay"></div>
+        </div>
+        <div class="col">
+          PRIORITY <br />
+          <div id="PriorityDisplay"></div>
+        </div>
+        <div class="col">
+          ID <br />
+          <div id="IDDisplay"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    //   CONSTS   //
+    const Display = document.getElementById("Display");
+    const NameDisplay = document.getElementById("NameDisplay");
+    const PriorityDisplay = document.getElementById("PriorityDisplay");
+    const IDDisplay = document.getElementById("IDDisplay");
+    const AddButton = document.getElementById("AddThing");
+    const RemoveButton = document.getElementById("RemoveThing");
+    const ShowAll = document.getElementById("ShowAll");
+    const SearchButton = document.getElementById("SearchThing");
+    const NameInput = document.getElementById("NameInput");
+    const PriorityInput = document.getElementById("PriorityInput");
+    const IDRemoval = document.getElementById("IDRemoval");
+    const IDSearch = document.getElementById("IDSearch");
+
+    let theList = [];
+
+    function addJSON() {
+      console.log(1);
+      if (NameInput.value.length > 1) {
+        theList.push({
+          name: NameInput.value,
+          prio: PriorityInput.value,
+          id: Number(theList.length + 1),
+        });
+        console.log(theList);
+      }
+    }
+    function removeJSON() {
+      console.log(IDRemoval.value-1);
+      let index = IDRemoval.value-1
+        theList.splice(index, index);
+        showJSON()
+      console.log(theList);
+    }
+    function showJSON() {
+      NameDisplay.innerHTML = null;
+      PriorityDisplay.innerHTML = null;
+      IDDisplay.innerHTML = null;
+      for (let index = 0; index < theList.length; index++) {
+        console.log(theList[index].name);
+        NameDisplay.innerHTML += theList[index].name += "<br>";
+      }
+      for (let index = 0; index < theList.length; index++) {
+        console.log(theList[index].prio);
+        PriorityDisplay.innerHTML += theList[index].prio += "<br>";
+      }
+      for (let index = 0; index < theList.length; index++) {
+        console.log(theList[index].id);
+        IDDisplay.innerHTML += theList[index].id += "<br>";
+      }
+    }
+
+    function searchJSON() {
+      if(theList.includes({id: IDSearch.value}, 0))
+      console.log("1")
+    }
+  </script>
+</html>
