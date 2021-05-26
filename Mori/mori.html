@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>2DO</title>
+    <link rel="icon" href="icon.png" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>TASK LIST</title>
     <style>
       .flex-grid {
         display: flex;
@@ -9,27 +16,51 @@
       .col {
         flex: 1;
       }
+      body {
+        background: rgb(212, 209, 255);
+        background: linear-gradient(
+          90deg,
+          rgba(212, 209, 255, 1) 0%,
+          rgba(210, 210, 237, 1) 35%,
+          rgba(168, 196, 201, 1) 100%
+        );
+        font-family: cursive;
+      }
     </style>
   </head>
   <body>
-    <div>
-      <button id="AddThing" onclick="addJSON()">ADD</button> NAME:<input
-        id="NameInput"
-      />
-      PRIORITY:<select name="Priority" id="PriorityInput">
-        <option value="High">High</option>
-        <option value="Low">Low</option>
+    <div style="margin: 5%">
+      <button class="btn btn-success" id="AddThing" onclick="addJSON()">
+        ADD
+      </button>
+      TASK:<input id="NameInput" /> PRIORITY:<select
+        name="Priority"
+        id="PriorityInput"
+      >
+        <option style="background-color: red" value="High">High</option>
+        <option style="background-color: rgb(0, 255, 0)" value="Low">
+          Low
+        </option>
       </select>
       <br />
       <br />
-      <button id="RemoveThing" onclick="removeJSON()">REMOVE</button>
+      <button class="btn btn-danger" id="RemoveThing" onclick="removeJSON()">
+        REMOVE
+      </button>
       <input id="IDRemoval" type="number" />
       <br />
       <br />
-      <button id="ShowAll" onclick="showJSON()">SHOW ALL</button>
+      <button class="btn btn-warning" id="ShowAll" onclick="showJSON()">
+        SHOW ALL
+      </button>
+      <button class="btn btn-light" onclick="clearAll()" id="ClearAll">
+        CLEAR
+      </button>
       <br />
       <br />
-      <button id="SearchThing" onclick="searchJSON()">SEARCH</button>
+      <button class="btn btn-info" id="SearchThing" onclick="searchJSON()">
+        SEARCH
+      </button>
       <input id="IDSearch" /> <br />
       <br />
     </div>
@@ -37,15 +68,15 @@
     <div id="Display">
       <div class="flex-grid">
         <div class="col">
-          TASK <br />
+          TASK: <br />
           <div id="NameDisplay"></div>
         </div>
         <div class="col">
-          PRIORITY <br />
+          PRIORITY: <br />
           <div id="PriorityDisplay"></div>
         </div>
         <div class="col">
-          ID <br />
+          ID: <br />
           <div id="IDDisplay"></div>
         </div>
       </div>
@@ -65,11 +96,11 @@
     const PriorityInput = document.getElementById("PriorityInput");
     const IDRemoval = document.getElementById("IDRemoval");
     const IDSearch = document.getElementById("IDSearch");
+    const ClearAll = document.getElementById("ClearAll");
 
     let theList = [];
 
     function addJSON() {
-      console.log(1);
       if (NameInput.value.length > 1) {
         theList.push({
           name: NameInput.value,
@@ -80,10 +111,9 @@
       }
     }
     function removeJSON() {
-      console.log(IDRemoval.value-1);
-      let index = IDRemoval.value-1
-        theList.splice(index, index);
-        showJSON()
+      let index = IDRemoval.value - 1;
+      theList.splice(index, 1);
+      showJSON();
       console.log(theList);
     }
     function showJSON() {
@@ -91,22 +121,37 @@
       PriorityDisplay.innerHTML = null;
       IDDisplay.innerHTML = null;
       for (let index = 0; index < theList.length; index++) {
-        console.log(theList[index].name);
-        NameDisplay.innerHTML += theList[index].name += "<br>";
+        NameDisplay.innerHTML += theList[index].name;
+        NameDisplay.innerHTML += "<br>";
       }
       for (let index = 0; index < theList.length; index++) {
-        console.log(theList[index].prio);
-        PriorityDisplay.innerHTML += theList[index].prio += "<br>";
+        PriorityDisplay.innerHTML += theList[index].prio;
+        PriorityDisplay.innerHTML += "<br>";
       }
       for (let index = 0; index < theList.length; index++) {
-        console.log(theList[index].id);
-        IDDisplay.innerHTML += theList[index].id += "<br>";
+        IDDisplay.innerHTML += theList[index].id;
+        IDDisplay.innerHTML += "<br>";
       }
+      console.log(theList);
     }
 
     function searchJSON() {
-      if(theList.includes({id: IDSearch.value}, 0))
-      console.log("1")
+      NameDisplay.innerHTML = null;
+      PriorityDisplay.innerHTML = null;
+      IDDisplay.innerHTML = null;
+      let stringList = JSON.stringify(theList);
+      let targetID = IDSearch.value;
+      if (stringList.includes(`"id":${targetID}`)) {
+        console.log("yes");
+        NameDisplay.innerHTML = theList[targetID - 1].name;
+        PriorityDisplay.innerHTML = theList[targetID - 1].prio;
+        IDDisplay.innerHTML = theList[targetID - 1].id;
+      }
+    }
+    function clearAll() {
+      NameDisplay.innerHTML = null;
+      PriorityDisplay.innerHTML = null;
+      IDDisplay.innerHTML = null;
     }
   </script>
 </html>
